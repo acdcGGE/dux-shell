@@ -32,6 +32,7 @@ override_dh_auto_build:
 	case "$(DEB_HOST_ARCH)" in \
 	amd64) GO_LINUX_ARCH=amd64 ;; \
 	arm64) GO_LINUX_ARCH=arm64 ;; \
+	loong64) GO_LINUX_ARCH=loong64 ;; \
 	*) echo "ERROR: Unsupported architecture: $(DEB_HOST_ARCH)" && exit 1 ;; \
 	esac; \
 	GO_TARBALL="$(CURDIR)/go$$GO_TOOLCHAIN_VERSION.linux-$$GO_LINUX_ARCH.tar.gz"; \
@@ -51,6 +52,8 @@ override_dh_auto_build:
 		MAKE_ARCH=amd64; \
 	elif [ "$(DEB_HOST_ARCH)" = "arm64" ]; then \
 		MAKE_ARCH=arm64; \
+	elif [ "$(DEB_HOST_ARCH)" = "loong64" ]; then \
+		MAKE_ARCH=loong64; \
 	else \
 		echo "ERROR: Unsupported architecture: $(DEB_HOST_ARCH)" && exit 1; \
 	fi; \
@@ -62,6 +65,8 @@ override_dh_auto_build:
 		cp core/bin/dms-linux-amd64 dms; \
 	elif [ "$(DEB_HOST_ARCH)" = "arm64" ]; then \
 		cp core/bin/dms-linux-arm64 dms; \
+	elif [ "$(DEB_HOST_ARCH)" = "loong64" ]; then \
+		cp core/bin/dms-linux-loong64 dms; \
 	fi
 	chmod +x dms
 

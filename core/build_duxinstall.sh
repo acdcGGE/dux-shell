@@ -16,7 +16,7 @@ echo -e "${GREEN}Building duxinstall ${VERSION}${NC}"
 mkdir -p bin
 
 # Build for each architecture
-for ARCH in amd64 arm64; do
+for ARCH in amd64 arm64 loong64; do
     echo -e "${BLUE}Building for ${ARCH}...${NC}"
 
     cd cmd/duxinstall

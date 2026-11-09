@@ -31,6 +31,16 @@ override_dh_auto_build:
 		else \
 			echo "ERROR: dms-distropkg-arm64.gz not found!" && exit 1; \
 		fi \
+	elif [ "$(DEB_HOST_ARCH)" = "loong64" ]; then \
+		if [ -f dms-distropkg-loong64.gz ]; then \
+			gunzip -c dms-distropkg-loong64.gz > dms; \
+		elif [ -f ../SOURCES/dms-distropkg-loong64.gz ]; then \
+			gunzip -c ../SOURCES/dms-distropkg-loong64.gz > dms; \
+		elif [ -f ../../SOURCES/dms-distropkg-loong64.gz ]; then \
+			gunzip -c ../../SOURCES/dms-distropkg-loong64.gz > dms; \
+		else \
+			echo "ERROR: dms-distropkg-loong64.gz not found!" && exit 1; \
+		fi \
 	else \
 		echo "Unsupported architecture: $(DEB_HOST_ARCH)" && exit 1; \
 	fi

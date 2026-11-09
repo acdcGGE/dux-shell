@@ -21,13 +21,13 @@ COMMIT?=$(COMMIT_HASH)
 
 BUILD_LDFLAGS=-ldflags='-s -w -X main.Version=$(VERSION) -X main.buildTime=$(BUILD_TIME) -X main.commit=$(COMMIT)'
 
-# Architecture to build for dist target (amd64, arm64, or all)
+# Architecture to build for dist target (amd64, arm64, loong64, or all)
 ARCH ?= all
 # Target OSes for dist builds
 DIST_OSES ?= linux freebsd
 
 ifeq ($(ARCH),all)
-DIST_ARCHS = amd64 arm64
+DIST_ARCHS = amd64 arm64 loong64
 else
 DIST_ARCHS = $(ARCH)
 endif
@@ -70,6 +70,10 @@ dist: sync-shell
 	@mkdir -p $(BUILD_DIR)
 	@for os in $(DIST_OSES); do \
 		for arch in $(DIST_ARCHS); do \
+			if [ "$$arch" = "loong64" ] && [ "$$os" != "linux" ]; then \
+				echo "Skipping $$os/$$arch (no Go port)"; \
+				continue; \
+			fi; \
 			echo "Building for $$os/$$arch..."; \
 			CGO_ENABLED=0 GOOS=$$os GOARCH=$$arch $(GO) build -tags 'distro_binary withshell' $(BUILD_LDFLAGS) -o $(BUILD_DIR)/$(BINARY_NAME)-$$os-$$arch ./$(SOURCE_DIR) || exit 1; \
 			echo "  $(BUILD_DIR)/$(BINARY_NAME)-$$os-$$arch"; \

@@ -41,8 +41,12 @@ func GetOSInfo() (*OSInfo, error) {
 		return nil, errdefs.NewCustomError(errdefs.ErrTypeNotLinux, fmt.Sprintf("Only linux is supported, but I found %s", runtime.GOOS))
 	}
 
-	if runtime.GOARCH != "amd64" && runtime.GOARCH != "arm64" {
-		return nil, errdefs.NewCustomError(errdefs.ErrTypeInvalidArchitecture, fmt.Sprintf("Only amd64 and arm64 are supported, but I found %s", runtime.GOARCH))
+	// loong64 (LoongArch64) is supported by source builds; upstream release
+	// artifacts currently only ship for amd64/arm64.
+	switch runtime.GOARCH {
+	case "amd64", "arm64", "loong64":
+	default:
+		return nil, errdefs.NewCustomError(errdefs.ErrTypeInvalidArchitecture, fmt.Sprintf("Unsupported architecture %s (supported: amd64, arm64, loong64)", runtime.GOARCH))
 	}
 
 	return getOSInfo(afero.NewOsFs(), runtime.GOARCH)

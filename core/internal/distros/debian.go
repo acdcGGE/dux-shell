@@ -15,6 +15,11 @@ func init() {
 	Register("debian", "#A80030", FamilyDebian, func(config DistroConfig, logChan chan<- string) Distribution {
 		return NewDebianDistribution(config, logChan)
 	})
+	// Deepin does not set ID_LIKE in /etc/os-release, so it needs an explicit
+	// registration to resolve to the Debian family.
+	Register("deepin", "#0F6EB8", FamilyDebian, func(config DistroConfig, logChan chan<- string) Distribution {
+		return NewDebianDistribution(config, logChan)
+	})
 	Register("lmde", "#69B53F", FamilyDebian, func(config DistroConfig, logChan chan<- string) Distribution {
 		return NewDebianDistribution(config, logChan)
 	})
@@ -136,6 +141,8 @@ func debianRepoArchitecture(arch string) string {
 		return "amd64"
 	case "arm64", "aarch64":
 		return "arm64"
+	case "loong64", "loongarch64":
+		return "loong64"
 	default:
 		return arch
 	}

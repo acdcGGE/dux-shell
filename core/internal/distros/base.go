@@ -679,6 +679,8 @@ func (b *BaseDistribution) installDMSBinary(ctx context.Context, sudoPassword st
 	switch arch {
 	case "amd64":
 	case "arm64":
+	case "loong64":
+		return fmt.Errorf("no prebuilt DMS binary for loong64; build dms from source (upstream releases ship amd64/arm64 only)")
 	default:
 		return fmt.Errorf("unsupported architecture for DMS: %s", arch)
 	}

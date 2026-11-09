@@ -420,6 +420,8 @@ func updateDMSBinary() error {
 		arch = "amd64"
 	case "aarch64", "arm64":
 		arch = "arm64"
+	case "loong64", "loongarch64":
+		return fmt.Errorf("no prebuilt dms release for LoongArch64; rebuild dms from source instead")
 	default:
 		cmd := exec.Command("uname", "-m")
 		output, err := cmd.Output()
@@ -432,6 +434,8 @@ func updateDMSBinary() error {
 			arch = "amd64"
 		case "aarch64":
 			arch = "arm64"
+		case "loongarch64", "loong64":
+			return fmt.Errorf("no prebuilt dms release for LoongArch64; rebuild dms from source instead")
 		default:
 			return fmt.Errorf("unsupported architecture: %s", archStr)
 		}

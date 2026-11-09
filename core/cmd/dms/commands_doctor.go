@@ -301,10 +301,17 @@ func checkSystemInfo() []checkResult {
 
 	arch := runtime.GOARCH
 	archStatus := statusOK
-	if arch != "amd64" && arch != "arm64" {
+	archDetails := ""
+	switch arch {
+	case "amd64", "arm64":
+	case "loong64":
+		// LoongArch64 is supported via source builds; no prebuilt release artifacts.
+		archStatus = statusWarn
+		archDetails = "source build required; upstream releases ship amd64/arm64 only"
+	default:
 		archStatus = statusError
 	}
-	results = append(results, checkResult{catSystem, "Architecture", archStatus, arch, "", doctorDocsURL + "#architecture"})
+	results = append(results, checkResult{catSystem, "Architecture", archStatus, arch, archDetails, doctorDocsURL + "#architecture"})
 
 	waylandDisplay := os.Getenv("WAYLAND_DISPLAY")
 	xdgSessionType := os.Getenv("XDG_SESSION_TYPE")

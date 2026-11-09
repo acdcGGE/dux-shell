@@ -9,7 +9,7 @@ Vcs-Browser: https://github.com/duxlabs-dev/dux-shell
 Vcs-Git: https://github.com/duxlabs-dev/dux-shell.git
 
 Package: dms
-Architecture: amd64 arm64
+Architecture: amd64 arm64 loong64
 Depends: ${misc:Depends},
          quickshell | quickshell-git,
          accountsservice,

@@ -2,4 +2,5 @@
 # These are needed for the build process on Launchpad
 tar-ignore = !dms-distropkg-amd64.gz
 tar-ignore = !dms-distropkg-arm64.gz
+tar-ignore = !dms-distropkg-loong64.gz
 tar-ignore = !dms-source.tar.gz

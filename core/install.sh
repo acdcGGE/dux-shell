@@ -28,9 +28,16 @@ x86_64)
 aarch64)
     ARCH="arm64"
     ;;
+loongarch64|loong64)
+    printf "%bError: No prebuilt duxinstall release exists for LoongArch64.%b\n" "$RED" "$NC"
+    printf "Build from source instead:\n"
+    printf "  cd core && make duxinstall\n"
+    printf "  ./bin/duxinstall\n"
+    exit 1
+    ;;
 *)
     printf "%bError: Unsupported architecture: %s%b\n" "$RED" "$ARCH" "$NC"
-    printf "This installer only supports x86_64 (amd64) and aarch64 (arm64) architectures\n"
+    printf "Supported: x86_64 (amd64), aarch64 (arm64); loong64 must be built from source\n"
     exit 1
     ;;
 esac
